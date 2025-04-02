@@ -125,5 +125,5 @@ In the original paper’s codebase:
 
 ---
 
-**Enjoy using Attention CycleGAN!** Feel free to open issues or pull requests if you have suggestions or find any bugs.
+**Enjoy using Attention CycleGAN!** Feel free to email me or ask questions...
 
