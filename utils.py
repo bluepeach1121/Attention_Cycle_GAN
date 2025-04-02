@@ -5,22 +5,13 @@ from typing import List
 import random
 
 class ReplayBuffer:
-    """
-    A buffer that stores previously generated samples and provides a mechanism
-    to reuse them during training to stabilize GAN training.
-
-    Args:
-        max_size (int): Maximum number of samples to store in the buffer.
-        device (torch.device): Device where the tensors will be stored ('cpu' or 'cuda').
-        replace_prob (float): Probability of replacing an old sample with a new one.
-    """
     def __init__(
         self, 
         max_size: int = 50, 
         device: torch.device = torch.device('cpu'), 
         replace_prob: float = 0.5
     ) -> None:
-        assert max_size > 0, "Empty buffer or trying to create a black hole. Be careful."
+        assert max_size > 0, "Empty buffer."
         assert 0.0 <= replace_prob <= 1.0, "replace_prob must be between 0 and 1."
         
         self.max_size: int = max_size
@@ -29,15 +20,6 @@ class ReplayBuffer:
         self.replace_prob: float = replace_prob
 
     def push_and_pop(self, data: torch.Tensor) -> torch.Tensor:
-        """
-        Adds new samples to the buffer and returns a batch of samples.
-
-        Args:
-            data (torch.Tensor): A batch of new samples.
-
-        Returns:
-            torch.Tensor: A batch of samples from the buffer.
-        """
         to_return: List[torch.Tensor] = []
         for element in data:
             element = element.unsqueeze(0).to(self.device)
@@ -55,16 +37,6 @@ class ReplayBuffer:
 
 
 class LambdaLR(_LRScheduler):
-    """
-    Linearly decays the learning rate after a specified epoch.
-
-    Args:
-        optimizer (Optimizer): Wrapped optimizer.
-        n_epochs (int): Total number of epochs for training.
-        offset (int): Starting epoch offset.
-        decay_start_epoch (int): Epoch to start decaying the learning rate.
-        last_epoch (int): The index of last epoch. Default: -1.
-    """
     def __init__(
         self,
         optimizer: Optimizer,
@@ -86,12 +58,6 @@ class LambdaLR(_LRScheduler):
         super(LambdaLR, self).__init__(optimizer, last_epoch)
 
     def get_lr(self) -> List[float]:
-        """
-        Computes the learning rate factor for the current epoch.
-
-        Returns:
-            List[float]: A list of learning rates for each parameter group.
-        """
         current_epoch = self.last_epoch
         lr_factor = 1.0 - max(
             0, 
