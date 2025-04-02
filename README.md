@@ -25,7 +25,7 @@ In the original paper’s codebase:
 
 1. **Self-Attention Layers**  
    - Both the Generator (`GeneratorResNet`) and the Discriminator (`Discriminator`) include a `SelfAttention` module.  
-   - This allows the model to capture **long-range dependencies** and focus on specific regions of the image, which can help improve translations in more complex scenes.  
+   - This allows the model to capture **long-range dependencies** and focus on specific parts of the image, which can help improve translations in more complex scenes.  
    - The `SelfAttention` module follows the typical query-key-value mechanism, computing an attention map and then reweighting feature maps accordingly.
 
 2. **WGAN-GP Style Adversarial Loss**  
@@ -36,7 +36,7 @@ In the original paper’s codebase:
 3. **Spectral Normalization**  
    - Spectral normalization helps stabilize training by constraining the Lipschitz constant of each layer, often improving the quality of generated images.
   
-     **it was fun learning about lipschitz constants and the role of eigenvalues in spectral_norm**
+     **it was fun learning about Lipschitz constants and the role of eigenvalues in spectral_norm**
 
 4. **Architecture & Layer Choices**  
    - **Reflection Padding** is used in the generator’s residual blocks (consistent with Johnson et al. style architectures).  
@@ -91,14 +91,13 @@ In the original paper’s codebase:
 
    - Make sure to prepare your unpaired datasets under the folder structure:
      ```
-     datasets/
        monet2photo/
          trainA/
          trainB/
          testA/
          testB/
      ```
-   - The script expects data in `trainA`, `trainB` for domain A and B, respectively, and optionally `testA`, `testB` for test data.
+   - The script expects data in `trainA`, `trainB` for domain A and B, respectively, and `testA`, `testB` for test data.
 
 3. **Testing / Generating Samples**  
    - The script automatically generates samples every `--sample_interval` iterations to an `images/<dataset_name>` folder.  
