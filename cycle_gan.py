@@ -19,7 +19,7 @@ from datasets import ImageDataset
 from utils import ReplayBuffer, LambdaLR
 
 
-
+# Wasserstein GAN with Gradient Penalty
 def gradient_penalty(discriminator, real_imgs, fake_imgs, device, lambda_gp):
     alpha = torch.rand(real_imgs.size(0), 1, 1, 1, device=device)
     alpha = alpha.expand_as(real_imgs)
